@@ -1,62 +1,20 @@
-const fetch = require('node-fetch');
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
 
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  // Datos de ejemplo temporalmente
+  const mockData = {
+    data: [
+      {
+        name: "1",
+        item_code: "PROD001",
+        item_name: "Producto de Ejemplo",
+        standard_rate: 100.00,
+        stock_uom: "Nos",
+        description: "Producto de prueba para desarrollo"
+      }
+    ]
   };
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers, body: 'Method Not Allowed' };
-  }
-
-  const ERPNEXT_URL = process.env.ERPNEXT_URL;
-  const API_KEY = process.env.API_KEY;
-  const API_SECRET = process.env.API_SECRET;
-
-  try {
-    const productData = JSON.parse(event.body);
-
-    const response = await fetch(`${ERPNEXT_URL}/api/resource/Item`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `token ${API_KEY}:${API_SECRET}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(productData)
-    });
-
-    const data = await response.json();
-
-    return {
-      statusCode: response.ok ? 200 : 400,
-      headers,
-      body: JSON.stringify(data)
-    };
-  } catch (error) {
-    console.error('Error:', error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: error.message })
-    };
-  }
-};
-```
-
-5. **Commit new file**
-
----
-
-## **PASO 3: Crear el tercer archivo**
-
-1. **Regresa a NOVA** → **Add file** → **Create new file**
-
-2. **Nombre:**
-```
-   netlify/functions/update-product.js
+  return res.status(200).json(mockData);
+}
