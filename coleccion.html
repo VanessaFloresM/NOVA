@@ -3,31 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colección</title>
+    <title>Colección - NOVA</title>
     <link rel="stylesheet" href="estilos-colección.css">
 </head>
 <body>
+    <!-- Tu barra de navegación original -->
     <nav class="barra-herramientas">
-        <nav class="barra-herramientas">
-   <ul>
-        <li><a href="inicio.html">Inicio</a></li>
-        <li><a href="coleccion.html">🕮Colección</a></li>
-        <li><a href="materiales.html">✎Materiales</a></li>
-        <li><a href="ayuda.html">?Ayuda</a></li>
-        <li><a href="nosotros.html">ဗီူNosotros</a></li>
-        <li><a href="contacto.html">☏Contacto</a></li>
-        <li>
-      <a href="https://www.facebook.com/profile.php?id=61583115397916" target="_blank">
-        <img src="facebook.png" alt="Redes sociales" class="icono-redes" />
-      </a>
-    </li>
-    <li>
-      <a href="https://www.instagram.com/nova.muebleria0/" target="_blank">
-        <img src="instagram.png" alt="Redes sociales" class="icono-redes" />
-      </a>
-    </li>
-    </ul>
-</nav>
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="coleccion.html">🕮Colección</a></li>
+            <li><a href="materiales.html">✎Materiales</a></li>
+            <li><a href="ayuda.html">?Ayuda</a></li>
+            <li><a href="nosotros.html">ဗီူNosotros</a></li>
+            <li><a href="contacto.html">☏Contacto</a></li>
+            <li>
+                <a href="https://www.facebook.com/profile.php?id=61583115397916" target="_blank">
+                    <img src="facebook.png" alt="Facebook" class="icono-redes" />
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/nova.muebleria0/" target="_blank">
+                    <img src="instagram.png" alt="Instagram" class="icono-redes" />
+                </a>
+            </li>
+        </ul>
+    </nav>
 
+    <!-- Nueva sección de gestión de productos -->
+    <main class="coleccion-main">
+        <div class="container">
+            <header class="coleccion-header">
+                <div class="header-content">
+                    <h1> Gestión de Productos</h1>
+                    <p>Administra tu colección desde ERPNext</p>
+                </div>
+                <button id="btnNuevo" class="btn-nuevo">
+                    <span>+</span> Nuevo Producto
+                </button>
+            </header>
+
+            <div class="search-section">
+                <input type="text" id="searchInput" placeholder="Buscar productos...">
+            </div>
+
+            <div id="formContainer" class="form-container hidden">
+                <div class="form-header">
+                    <h2 id="formTitle">Nuevo Producto</h2>
+                    <button id="btnCerrarForm" class="btn-cerrar">✕</button>
+                </div>
+                
+                <div class="form-content">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Código del Producto *</label>
+                            <input type="text" id="item_code" placeholder="PROD-001" required>
+                            <small>Solo se puede establecer al crear el producto</small>
+                        </div>
+                        <div class="form-field">
+                            <label>Nombre del Producto *</label>
+                            <input type="text" id="item_name" placeholder="Mesa de Roble" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Precio ($)</label>
+                            <input type="number" id="standard_rate" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="form-field">
+                            <label>Unidad de Medida</label>
+                            <input type="text" id="stock_uom" placeholder="Pcs, Kg, L" value="Pcs">
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Descripción</label>
+                        <textarea id="description" rows="4" placeholder="Descripción detallada del producto..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button id="btnCancelar" class="btn-secondary">Cancelar</button>
+                        <button id="btnGuardar" class="btn-primary">
+                            <span id="btnGuardarTexto"> Guardar Producto</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="productos-section">
+                <div class="section-header">
+                    <h2>Productos (<span id="productCount">0</span>)</h2>
+                </div>
+
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando productos desde ERPNext...</p>
+                </div>
+
+                <div id="productsContainer" class="products-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="coleccion.js"></script>
 </body>
 </html>
