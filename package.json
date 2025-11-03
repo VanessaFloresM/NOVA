@@ -1,21 +1,14 @@
 {
   "name": "nova-erpnext",
   "version": "1.0.0",
-  "description": "Gestión de productos con ERPNext",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'Build completo'",
-    "start": "serve ."
+    "dev": "vercel dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "serve": "^14.0.0",
     "vercel": "^28.0.0"
   }
 }
