@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 exports.handler = async (event, context) => {
   const ERPNEXT_URL = process.env.ERPNEXT_URL;
   const API_KEY = process.env.API_KEY;
