@@ -23,7 +23,7 @@ async function loadProducts() {
     productsContainer.innerHTML = '';
     
     try {
-        const response = await fetch('/.netlify/functions/get-products');
+        const response = await fetch('/api/get-products');
         
         if (!response.ok) {
             throw new Error('Error al obtener productos');
@@ -125,7 +125,7 @@ async function saveProduct() {
     const itemName = document.getElementById('item_name').value.trim();
 
     if (!itemCode || !itemName) {
-        alert(' El código y nombre del producto son obligatorios');
+        alert('⚠️ El código y nombre del producto son obligatorios');
         return;
     }
 
@@ -148,7 +148,7 @@ async function saveProduct() {
         const method = editingId ? 'PUT' : 'POST';
         const body = editingId ? { productId: editingId, ...productData } : productData;
 
-        const response = await fetch(`/.netlify/functions/${endpoint}`, {
+        const response = await fetch(`/api/${endpoint}`, {
             method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -157,15 +157,15 @@ async function saveProduct() {
         const data = await response.json();
 
         if (response.ok) {
-            alert(`Producto ${editingId ? 'actualizado' : 'creado'} correctamente`);
+            alert(`✅ Producto ${editingId ? 'actualizado' : 'creado'} correctamente`);
             hideForm();
             await loadProducts();
         } else {
-            alert(` Error: ${data.message || data.error || 'No se pudo guardar el producto'}`);
+            alert(`❌ Error: ${data.message || data.error || 'No se pudo guardar el producto'}`);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert(' Error al guardar el producto. Verifica tu conexión.');
+        alert('❌ Error al guardar el producto. Verifica tu conexión.');
     } finally {
         btnGuardar.disabled = false;
         btnGuardarTexto.textContent = originalText;
@@ -187,21 +187,21 @@ async function deleteProduct(productId) {
     }
 
     try {
-        const response = await fetch('/.netlify/functions/delete-product', {
+        const response = await fetch('/api/delete-product', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ productId })
         });
 
         if (response.ok) {
-            alert(' Producto eliminado correctamente');
+            alert('✅ Producto eliminado correctamente');
             await loadProducts();
         } else {
-            alert(' Error al eliminar el producto');
+            alert('❌ Error al eliminar el producto');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert(' Error al eliminar el producto');
+        alert('❌ Error al eliminar el producto');
     }
 }
 
