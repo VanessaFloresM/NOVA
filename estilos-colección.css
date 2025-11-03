@@ -1,7 +1,8 @@
+/* ===== ESTILOS DE LA BARRA DE NAVEGACIÓN ===== */
 body {
     margin: 0;
     padding: 0;
-    background-color: #FDF6EC; /* color hueso */
+    background-color: #FDF6EC;
     font-family: 'Georgia', serif;
     color: #333;
 }
@@ -36,41 +37,23 @@ body {
 .barra-herramientas a:hover {
     color: #E9D1BA;
 }
+
 .iconos-redes {
-  text-align: center;
-  padding: 10px 0;
+    text-align: center;
+    padding: 10px 0;
 }
 
 .iconos-redes img {
-  height: 30px;
-  margin: 0 5px;
-  vertical-align: middle;
+    height: 30px;
+    margin: 0 5px;
+    vertical-align: middle;
 }
 
 .icono-redes {
-  height: 24px;
-  margin-left: 10px;
-  vertical-align: middle;
+    height: 24px;
+    margin-left: 10px;
+    vertical-align: middle;
 }
-
-.seccion {
-    padding: 80px 40px;
-    max-width: 800px;
-    margin: auto;
-    text-align: center;
-}
-
-.seccion h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    color: #5B2432;
-}
-
-.seccion p {
-    font-size: 18px;
-    line-height: 1.6;
-}
-
 
 :root {
     --primary: #800020;
