@@ -1,42 +1,30 @@
-exports.handler = async (event, context) => {
-  const ERPNEXT_URL = process.env.ERPNEXT_URL;
-  const API_KEY = process.env.API_KEY;
-  const API_SECRET = process.env.API_SECRET;
-
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
+module.exports = async (req, res) => {
+  // Permitir CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
+  
   try {
-    const response = await fetch(
-      `${ERPNEXT_URL}/api/resource/Item?fields=["name","item_code","item_name","standard_rate","stock_uom","description"]&limit_page_length=200`,
+    // Aquí tu lógica para conectar con ERPNext
+    const mockProducts = [
       {
-        headers: {
-          'Authorization': `token ${API_KEY}:${API_SECRET}`,
-          'Content-Type': 'application/json'
-        }
+        name: "1",
+        item_code: "PROD001", 
+        item_name: "Producto Ejemplo",
+        standard_rate: 100.00,
+        stock_uom: "Nos",
+        description: "Producto de prueba"
       }
-    );
-
-    const data = await response.json();
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(data)
-    };
+    ];
+    
+    res.status(200).json({
+      success: true,
+      data: mockProducts
+    });
+    
   } catch (error) {
-    console.error('Error:', error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: error.message })
-    };
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 };
