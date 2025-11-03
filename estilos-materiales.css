@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FDF6EC;
+    font-family: 'Georgia', serif;
+    color: #333;
+}
+
+.barra-herramientas {
+    background-color: #800020;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.barra-herramientas ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.barra-herramientas li {
+    margin: 0 15px;
+}
+
+.barra-herramientas a {
+    text-decoration: none;
+    color: #F4F3F3;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.barra-herramientas a:hover {
+    color: #E9D1BA;
+}
+
+.seccion-materiales {
+    padding: 80px 40px;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.card {
+    width: 280px;
+    height: 360px;
+    perspective: 1000px;
+}
+
+.card-front, .card-back {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.8s ease;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card-back {
+    background-color: #E1CED3;
+    color: #49242D;
+    transform: rotateY(180deg);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card:hover .card-front {
+    transform: rotateY(180deg);
+}
+
+.card:hover .card-back {
+    transform: rotateY(360deg);
+}
+.iconos-redes {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.iconos-redes img {
+  height: 30px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.icono-redes {
+  height: 24px;
+  margin-left: 10px;
+  vertical-align: middle;
+}

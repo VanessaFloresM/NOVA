@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto | Mueblería NOVA</title>
+  <link rel="stylesheet" href="estilos-contacto.css" />
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="barra-herramientas">
+    <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="coleccion.html">🕮Colección</a></li>
+        <li><a href="materiales.html">✎Materiales</a></li>
+        <li><a href="ayuda.html">?Ayuda</a></li>
+        <li><a href="nosotros.html">ဗီူNosotros</a></li>
+        <li><a href="contacto.html">☏Contacto</a></li>
+        <li>
+      <a href="https://www.facebook.com/profile.php?id=61583115397916" target="_blank">
+        <img src="facebook.png" alt="Redes sociales" class="icono-redes" />
+      </a>
+    </li>
+    <li>
+      <a href="https://www.instagram.com/nova.muebleria0/" target="_blank">
+        <img src="instagram.png" alt="Redes sociales" class="icono-redes" />
+      </a>
+    </li>
+    </ul>
+  </nav>
+
+  <div class="contenedor-formulario">
+    <h1>Contáctanos</h1>
+    <p>¿Tienes alguna duda, sugerencia o quieres cotizar un mueble personalizado? Escríbenos:</p>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" placeholder="ejemplo@correo.com" required />
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" placeholder="55 1234 5678" />
+      </div>
+      <div class="form-group">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+      </div>
+      <div class="form-buttons">
+        <button type="submit">Enviar</button>
+        <button type="reset">Borrar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

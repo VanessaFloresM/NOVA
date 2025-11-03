@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f4f3f3;
+  font-family: 'Georgia', serif;
+  color: #49242d;
+}
+
+.barra-herramientas {
+  background-color: #800020;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.barra-herramientas ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.barra-herramientas li {
+  margin: 0 15px;
+}
+
+.barra-herramientas a {
+  text-decoration: none;
+  color: #f4f3f3;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.barra-herramientas a:hover {
+  color: #e1ced3;
+}
+
+.contenedor-formulario {
+  max-width: 600px;
+  margin: 100px auto 40px;
+  background-color: #e9d1ba;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-formulario h1 {
+  text-align: center;
+  font-size: 32px;
+  color: #5b2432;
+  margin-bottom: 10px;
+}
+
+.contenedor-formulario p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #49242d;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #5b2432;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #fdf6ec;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #800020;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #800020;
+  color: #f4f3f3;
+  transition: background-color 0.3s ease;
+}
+
+.form-buttons button:hover {
+  background-color: #5b2432;
+}
+.iconos-redes {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.iconos-redes img {
+  height: 30px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.icono-redes {
+  height: 24px;
+  margin-left: 10px;
+  vertical-align: middle;
+}

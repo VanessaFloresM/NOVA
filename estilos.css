@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #E9D1BA, #5B2432);
+    background-size: 400% 400%;
+    animation: animacionDegradado 10s ease infinite;
+    font-family: Georgia, serif;
+    color: #F4F3F3;
+}
+
+@keyframes animacionDegradado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.barra-herramientas {
+    background-color: #800020;
+    padding: 25px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.barra-herramientas ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.barra-herramientas li {
+    margin: 0 20px;
+}
+
+.barra-herramientas a {
+    text-decoration: none;
+    color: #F4F3F3;
+    font-size: 17px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.barra-herramientas a:hover {
+    color: #E1CED3;
+}
+
+.contenedor {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+}
+
+.contenido-texto {
+    max-width: 500px;
+    margin: 20px;
+    animation: movimientoTexto 3s ease-in-out infinite;
+}
+
+@keyframes movimientoTexto {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.contenido-texto h1 {
+    font-size: 48px;
+    margin: 0;
+    color: #E1CED3;
+    animation: efectoLetra 2s ease-in-out infinite alternate;
+}
+
+.contenido-texto h2 {
+    font-size: 24px;
+    margin-top: 10px;
+    color: #F4F3F3;
+}
+
+.contenido-texto p {
+    font-size: 18px;
+    margin-top: 15px;
+    color: #F4F3F3;
+}
+
+.imagen {
+    margin: 20px;
+}
+
+.imagen img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    animation: zoomImagen 4s ease-in-out infinite alternate;
+}
+
+@keyframes zoomImagen {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
