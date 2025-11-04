@@ -1,13 +1,17 @@
 {
   "functions": {
-    "netlify/functions/*.js": {
+    "api/*.js": {
       "runtime": "nodejs18.x"
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/.netlify/functions/:path*",
-      "destination": "/api/:path*"
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
