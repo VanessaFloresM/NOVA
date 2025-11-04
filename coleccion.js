@@ -1,6 +1,7 @@
 let products = [];
 let editingId = null;
 
+// Elementos DOM
 const btnNuevo = document.getElementById('btnNuevo');
 const btnCerrarForm = document.getElementById('btnCerrarForm');
 const btnCancelar = document.getElementById('btnCancelar');
@@ -11,8 +12,6 @@ const searchInput = document.getElementById('searchInput');
 const productsContainer = document.getElementById('productsContainer');
 const loading = document.getElementById('loading');
 const productCount = document.getElementById('productCount');
-
-
 const btnLogout = document.getElementById('btnLogout');
 const adminUsername = document.getElementById('adminUsername');
 
@@ -29,7 +28,7 @@ function logout() {
     }
 }
 
-// Event Listeners 
+// Event Listeners
 btnNuevo?.addEventListener('click', showForm);
 btnCerrarForm?.addEventListener('click', hideForm);
 btnCancelar?.addEventListener('click', hideForm);
@@ -37,6 +36,7 @@ btnGuardar?.addEventListener('click', saveProduct);
 searchInput?.addEventListener('input', (e) => renderProducts(e.target.value));
 btnLogout?.addEventListener('click', logout);
 
+// Cargar productos
 async function loadProducts() {
     loading.style.display = 'block';
     productsContainer.innerHTML = '';
@@ -65,6 +65,7 @@ async function loadProducts() {
     }
 }
 
+// Renderizar productos
 function renderProducts(search = '') {
     const filtered = products.filter(p => 
         p.item_name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -86,15 +87,33 @@ function renderProducts(search = '') {
 
     productsContainer.innerHTML = filtered.map(product => `
         <div class="product-card">
+            ${product.image ? `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.item_name}" onerror="this.style.display='none'">
+                </div>
+            ` : `
+                <div class="product-image-placeholder">
+                    <span>📦</span>
+                </div>
+            `}
             <div class="product-code">${product.item_code || 'SIN CÓDIGO'}</div>
             <div class="product-name">${product.item_name || 'Sin nombre'}</div>
             <div class="product-price">$${parseFloat(product.standard_rate || 0).toFixed(2)}</div>
             <div class="product-uom">📦 ${product.stock_uom || 'N/A'}</div>
             ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
+            <div class="product-actions">
+                <button class="action-btn btn-edit" onclick="editProduct('${product.name}')">
+                     Editar
+                </button>
+                <button class="action-btn btn-delete" onclick="deleteProduct('${product.name}')">
+                     Eliminar
+                </button>
+            </div>
         </div>
     `).join('');
 }
 
+// Mostrar formulario
 function showForm(product = null) {
     formContainer.classList.remove('hidden');
     
@@ -107,6 +126,7 @@ function showForm(product = null) {
         document.getElementById('standard_rate').value = product.standard_rate || 0;
         document.getElementById('stock_uom').value = product.stock_uom || 'Nos';
         document.getElementById('description').value = product.description || '';
+        document.getElementById('image').value = product.image || '';
     } else {
         formTitle.textContent = 'Nuevo Producto';
         editingId = null;
@@ -117,26 +137,30 @@ function showForm(product = null) {
     formContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Ocultar formulario
 function hideForm() {
     formContainer.classList.add('hidden');
     clearForm();
     editingId = null;
 }
 
+// Limpiar formulario
 function clearForm() {
     document.getElementById('item_code').value = '';
     document.getElementById('item_name').value = '';
     document.getElementById('standard_rate').value = 0;
     document.getElementById('stock_uom').value = 'Nos';
     document.getElementById('description').value = '';
+    document.getElementById('image').value = '';
 }
 
+// Guardar producto
 async function saveProduct() {
     const itemCode = document.getElementById('item_code').value.trim();
     const itemName = document.getElementById('item_name').value.trim();
 
     if (!itemCode || !itemName) {
-        alert('⚠️ El código y nombre del producto son obligatorios');
+        alert(' El código y nombre del producto son obligatorios');
         return;
     }
 
@@ -146,13 +170,14 @@ async function saveProduct() {
         item_group: 'Products',
         stock_uom: document.getElementById('stock_uom').value || 'Nos',
         standard_rate: parseFloat(document.getElementById('standard_rate').value) || 0,
-        description: document.getElementById('description').value
+        description: document.getElementById('description').value,
+        image: document.getElementById('image').value || ''
     };
 
     const btnGuardarTexto = document.getElementById('btnGuardarTexto');
     const originalText = btnGuardarTexto.textContent;
     btnGuardar.disabled = true;
-    btnGuardarTexto.textContent = '⏳ Guardando...';
+    btnGuardarTexto.textContent = ' Guardando...';
 
     try {
         const endpoint = editingId ? 'update-product' : 'create-product';
@@ -168,21 +193,22 @@ async function saveProduct() {
         const data = await response.json();
 
         if (response.ok) {
-            alert(`✅ Producto ${editingId ? 'actualizado' : 'creado'} correctamente`);
+            alert(` Producto ${editingId ? 'actualizado' : 'creado'} correctamente`);
             hideForm();
             await loadProducts();
         } else {
-            alert(`❌ Error: ${data.message || data.error || 'No se pudo guardar el producto'}`);
+            alert(` Error: ${data.message || data.error || 'No se pudo guardar el producto'}`);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('❌ Error al guardar el producto. Verifica tu conexión.');
+        alert(' Error al guardar el producto. Verifica tu conexión.');
     } finally {
         btnGuardar.disabled = false;
         btnGuardarTexto.textContent = originalText;
     }
 }
 
+// Editar producto
 function editProduct(productId) {
     const product = products.find(p => p.name === productId);
     if (product) {
@@ -190,6 +216,7 @@ function editProduct(productId) {
     }
 }
 
+// Eliminar producto
 async function deleteProduct(productId) {
     const product = products.find(p => p.name === productId);
     
@@ -205,15 +232,16 @@ async function deleteProduct(productId) {
         });
 
         if (response.ok) {
-            alert('✅ Producto eliminado correctamente');
+            alert('Producto eliminado correctamente');
             await loadProducts();
         } else {
-            alert('❌ Error al eliminar el producto');
+            alert(' Error al eliminar el producto');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('❌ Error al eliminar el producto');
+        alert(' Error al eliminar el producto');
     }
 }
 
+// Cargar productos al iniciar
 loadProducts();
