@@ -1,24 +1,14 @@
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'DELETE, OPTIONS'
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'DELETE') {
-    return { statusCode: 405, headers, body: 'Method Not Allowed' };
-  }
-
+export default async function handler(req, res) {
   const ERPNEXT_URL = process.env.ERPNEXT_URL;
   const API_KEY = process.env.API_KEY;
   const API_SECRET = process.env.API_SECRET;
 
+  if (req.method !== 'DELETE') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const { productId } = JSON.parse(event.body);
+    const { productId } = req.body;
 
     const response = await fetch(`${ERPNEXT_URL}/api/resource/Item/${productId}`, {
       method: 'DELETE',
@@ -27,17 +17,9 @@ exports.handler = async (event, context) => {
       }
     });
 
-    return {
-      statusCode: response.ok ? 200 : 400,
-      headers,
-      body: JSON.stringify({ success: response.ok })
-    };
+    res.status(response.ok ? 200 : 400).json({ success: response.ok });
   } catch (error) {
     console.error('Error:', error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: error.message })
-    };
+    res.status(500).json({ error: error.message });
   }
-};
+}
