@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Configurar CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -18,7 +17,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `${ERPNEXT_URL}/api/resource/Item?fields=["name","item_code","item_name","standard_rate","stock_uom","description"]&limit_page_length=200`,
+      `${ERPNEXT_URL}/api/resource/Item?fields=["name","item_code","item_name","standard_rate","stock_uom","description","image"]&limit_page_length=200`,
       {
         headers: {
           'Authorization': `token ${API_KEY}:${API_SECRET}`,
