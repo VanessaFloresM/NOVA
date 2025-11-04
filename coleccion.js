@@ -12,11 +12,30 @@ const productsContainer = document.getElementById('productsContainer');
 const loading = document.getElementById('loading');
 const productCount = document.getElementById('productCount');
 
+
+const btnLogout = document.getElementById('btnLogout');
+const adminUsername = document.getElementById('adminUsername');
+
+// Mostrar usuario actual
+if (sessionStorage.getItem('adminUser')) {
+    adminUsername.textContent = ` ${sessionStorage.getItem('adminUser')}`;
+}
+
+// Función de cerrar sesión
+function logout() {
+    if (confirm('¿Estás seguro de cerrar sesión?')) {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+    }
+}
+
+// Event Listeners 
 btnNuevo?.addEventListener('click', showForm);
 btnCerrarForm?.addEventListener('click', hideForm);
 btnCancelar?.addEventListener('click', hideForm);
 btnGuardar?.addEventListener('click', saveProduct);
 searchInput?.addEventListener('input', (e) => renderProducts(e.target.value));
+btnLogout?.addEventListener('click', logout);
 
 async function loadProducts() {
     loading.style.display = 'block';
