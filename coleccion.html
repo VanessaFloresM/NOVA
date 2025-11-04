@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="estilos-colección.css?v=2">
 </head>
 <body>
+    <script>
+    // Verificar autenticación
+    if (!sessionStorage.getItem('adminAuth')) {
+        window.location.href = 'login.html';
+    }
+</script>
     <!-- Tu barra de navegación  -->
     <nav class="barra-herramientas">
         <ul>
@@ -28,6 +34,20 @@
             </li>
         </ul>
     </nav>
+            <header class="coleccion-header">
+        <div class="header-content">
+            <h1>Gestión de Productos</h1>
+            <p>Administra tu colección desde ERPNext</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button id="btnNuevo" class="btn-nuevo">
+                <span>+</span> Nuevo Producto
+            </button>
+            <button onclick="logout()" class="btn-secondary" style="padding: 16px 24px;">
+                Cerrar Sesión
+            </button>
+        </div>
+    </header>
 
     <!-- Nueva sección de gestión de productos -->
     <main class="coleccion-main">
@@ -108,6 +128,7 @@
     <script src="coleccion.js"></script>
 </body>
 </html>
+
 
 
 
