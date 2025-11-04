@@ -72,14 +72,6 @@ function renderProducts(search = '') {
             <div class="product-price">$${parseFloat(product.standard_rate || 0).toFixed(2)}</div>
             <div class="product-uom">📦 ${product.stock_uom || 'N/A'}</div>
             ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
-            <div class="product-actions">
-                <button class="action-btn btn-edit" onclick="editProduct('${product.name}')">
-                    ✏️ Editar
-                </button>
-                <button class="action-btn btn-delete" onclick="deleteProduct('${product.name}')">
-                    🗑️ Eliminar
-                </button>
-            </div>
         </div>
     `).join('');
 }
