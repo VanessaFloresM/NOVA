@@ -16,46 +16,34 @@ export default async function handler(req, res) {
   const API_SECRET = process.env.API_SECRET;
 
   try {
-    const { productId, ...productData } = req.body;
+    const { productId, item_code, ...productData } = req.body;
 
-    // Primero obtener el producto completo
-    const getResponse = await fetch(`${ERPNEXT_URL}/api/resource/Item/${productId}`, {
-      headers: {
-        'Authorization': `token ${API_KEY}:${API_SECRET}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!getResponse.ok) {
-      return res.status(400).json({ error: 'No se pudo obtener el producto' });
-    }
-
-    const currentProduct = await getResponse.json();
-
-    // Combinar datos actuales con los nuevos
-    const updatedData = {
-      ...currentProduct.data,
-      ...productData
+    // Solo enviar campos que se pueden actualizar
+    const updateData = {
+      item_name: productData.item_name,
+      standard_rate: productData.standard_rate,
+      stock_uom: productData.stock_uom,
+      description: productData.description,
+      image: productData.image || null
     };
 
-    // Actualizar el producto
-    const updateResponse = await fetch(`${ERPNEXT_URL}/api/resource/Item/${productId}`, {
+    const response = await fetch(`${ERPNEXT_URL}/api/resource/Item/${productId}`, {
       method: 'PUT',
       headers: {
         'Authorization': `token ${API_KEY}:${API_SECRET}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updatedData)
+      body: JSON.stringify(updateData)
     });
 
-    const data = await updateResponse.json();
+    const data = await response.json();
 
-    if (updateResponse.ok) {
+    if (response.ok) {
       return res.status(200).json(data);
     } else {
-      console.error('Error de ERPNext:', data);
+      console.error('Error detallado:', data);
       return res.status(400).json({ 
-        error: data.message || data.exception || 'Error al actualizar',
+        error: data.message || 'Error al actualizar',
         details: data
       });
     }
