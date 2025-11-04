@@ -1,24 +1,14 @@
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers, body: 'Method Not Allowed' };
-  }
-
+export default async function handler(req, res) {
   const ERPNEXT_URL = process.env.ERPNEXT_URL;
   const API_KEY = process.env.API_KEY;
   const API_SECRET = process.env.API_SECRET;
 
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const productData = JSON.parse(event.body);
+    const productData = req.body;
 
     const response = await fetch(`${ERPNEXT_URL}/api/resource/Item`, {
       method: 'POST',
@@ -31,18 +21,9 @@ exports.handler = async (event, context) => {
 
     const data = await response.json();
 
-    return {
-      statusCode: response.ok ? 200 : 400,
-      headers,
-      body: JSON.stringify(data)
-    };
+    res.status(response.ok ? 200 : 400).json(data);
   } catch (error) {
     console.error('Error:', error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: error.message })
-    };
+    res.status(500).json({ error: error.message });
   }
-};
-te-product.js
+}
