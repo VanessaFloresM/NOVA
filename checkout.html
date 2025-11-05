@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - NOVA</title>
+    <link rel="stylesheet" href="estilos-colección.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .checkout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .checkout-form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .checkout-form h2 {
+            color: #800020;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #800020;
+            box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        #card-element {
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+        }
+
+        #card-element.StripeElement--focus {
+            border-color: #800020;
+            box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.1);
+        }
+
+        #card-errors {
+            color: #ef4444;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .order-summary h2 {
+            color: #800020;
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f3f4f6;
+        }
+
+        .order-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .order-item-quantity {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .order-item-price {
+            font-weight: 700;
+            color: #800020;
+        }
+
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .order-total-row.final {
+            font-size: 20px;
+            font-weight: 700;
+            color: #800020;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 16px;
+            background: #800020;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-pay:hover:not(:disabled) {
+            background: #5B2432;
+            transform: translateY(-2px);
+        }
+
+        .btn-pay:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            opacity: 0.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #800020;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="barra-herramientas">
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+           <li><a href="coleccion.html">Colección </a></li>
+            <li><a href="catalogo.html"> Catálogo</a></li>
+            <li><a href="materiales.html">✎Materiales</a></li>
+            <li><a href="ayuda.html">?Ayuda</a></li>
+            <li><a href="nosotros.html">ဗီူNosotros</a></li>
+            <li><a href="contacto.html">☏Contacto</a></li>
+        </ul>
+    </nav>
+
+    <div class="checkout-container">
+        <div class="checkout-form">
+            <a href="catalogo.html" class="back-link">← Volver al catálogo</a>
+            <h2> Finalizar Compra</h2>
+
+            <form id="payment-form">
+                <div class="form-section">
+                    <h3>Información de Contacto</h3>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" required placeholder="tu@email.com">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3> Información de Envío</h3>
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="name" required placeholder="Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección *</label>
+                        <input type="text" id="address" required placeholder="Calle Principal 123">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ciudad *</label>
+                            <input type="text" id="city" required placeholder="Ciudad">
+                        </div>
+                        <div class="form-group">
+                            <label>Código Postal *</label>
+                            <input type="text" id="postal_code" required placeholder="12345">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="phone" required placeholder="222 123 4567">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3> Información de Pago</h3>
+                    <div class="form-group">
+                        <label>Tarjeta de Crédito/Débito</label>
+                        <div id="card-element"></div>
+                        <div id="card-errors"></div>
+                    </div>
+                    <div class="payment-icons">
+                        <span> Pago seguro</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-button" class="btn-pay">
+                    <span id="button-text">💳 Pagar Ahora</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="order-summary">
+            <h2> Resumen del Pedido</h2>
+            <div id="order-items"></div>
+            <div class="order-totals">
+                <div class="order-total-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="order-total-row">
+                    <span>Envío:</span>
+                    <span id="shipping">$0.00</span>
+                </div>
+                <div class="order-total-row final">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="checkout.js"></script>
+</body>
+</html>
