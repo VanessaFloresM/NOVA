@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - NOVA</title>
+    <link rel="stylesheet" href="estilos-colección.css">
+    <style>
+        /* Estilos adicionales para el catálogo */
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #800020;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(128, 0, 32, 0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(128, 0, 32, 0.5);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-sidebar.open {
+            right: 0;
+        }
+        
+        .cart-header {
+            padding: 20px;
+            background: #800020;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        
+        .btn-close-cart {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f3f4f6;
+        }
+        
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: #800020;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .qty-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .cart-total-amount {
+            color: #800020;
+            font-size: 24px;
+        }
+        
+        .btn-checkout {
+            width: 100%;
+            padding: 15px;
+            background: #800020;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-checkout:hover {
+            background: #5B2432;
+            transform: translateY(-2px);
+        }
+        
+        .btn-add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-to-cart:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+        
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="barra-herramientas">
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="catalogo.html">🛍️ Catálogo</a></li>
+            <li><a href="materiales.html">✎Materiales</a></li>
+            <li><a href="ayuda.html">?Ayuda</a></li>
+            <li><a href="nosotros.html">ဗီူNosotros</a></li>
+            <li><a href="contacto.html">☏Contacto</a></li>
+            <li>
+                <a href="https://www.facebook.com/profile.php?id=61583115397916" target="_blank">
+                    <img src="facebook.png" alt="Facebook" class="icono-redes" />
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/nova.muebleria0/" target="_blank">
+                    <img src="instagram.png" alt="Instagram" class="icono-redes" />
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Ícono del carrito flotante -->
+    <div class="cart-icon" id="cartIcon">
+        🛒
+        <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+
+    <!-- Sidebar del carrito -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Mi Carrito</h2>
+            <button class="btn-close-cart" id="btnCloseCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Tu carrito está vacío</h3>
+                <p>Agrega productos para comenzar</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="cart-total-amount" id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn-checkout" id="btnCheckout">
+                💳 Proceder al Pago
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="coleccion-main">
+        <div class="container">
+            <header class="coleccion-header">
+                <div class="header-content">
+                    <h1> Nuestros Productos</h1>
+                    <p>Descubre nuestra colección de muebles</p>
+                </div>
+            </header>
+
+            <div class="search-section">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar productos...">
+            </div>
+
+            <div class="productos-section">
+                <div class="section-header">
+                    <h2>Productos Disponibles (<span id="productCount">0</span>)</h2>
+                </div>
+
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando productos...</p>
+                </div>
+
+                <div id="productsContainer" class="products-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="catalogo.js"></script>
+</body>
+</html>
