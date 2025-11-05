@@ -517,4 +517,48 @@ body {
     font-size: 64px;
     opacity: 0.3;
 }
+/* Estilos para stock */
+.product-stock {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.text-green {
+    color: #10b981;
+}
+
+.text-orange {
+    color: #f59e0b;
+}
+
+.text-red {
+    color: #ef4444;
+}
+
+.out-of-stock {
+    opacity: 0.6;
+}
+
+.out-of-stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ef4444;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.product-image {
+    position: relative;
+}
+
+.cart-item-stock {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 5px;
+}
 
